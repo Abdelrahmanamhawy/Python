@@ -1,0 +1,60 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Jun 25 20:21:10 2019
+
+@author: Whiterabbit2015
+"""
+
+# This Python 3 environment comes with many helpful analytics libraries installed
+# It is defined by the kaggle/python docker image: https://github.com/kaggle/docker-python
+# For example, here's several helpful packages to load in 
+
+import numpy as np # linear algebra
+import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+
+# Input data files are available in the "../input/" directory.
+# For example, running this (by clicking run or pressing Shift+Enter) will list the files in the input directory
+'''
+This is a decisiontree classifer ,it was implemented for Kaggle 's MINST digits competition. 
+The code is really simple and easy to follow
+'''
+
+
+import os
+
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Jun 25 18:10:30 2019
+
+@author: Whiterabbit2015
+"""
+
+from sklearn import tree
+from sklearn import svm
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score
+ 
+
+
+train=pd.read_csv('train.csv')
+test=pd.read_csv('test.csv')
+
+x=train.iloc[:,1:]
+y=train.iloc[:,0]
+
+#Very important step::Standarize the data ! 
+X_train, X_test, y_train, y_test = train_test_split(x, y, test_size = 0.25, random_state = 0)
+
+sc_X = StandardScaler()
+X_train = sc_X.fit_transform(X_train)
+X_test = sc_X.transform(X_test)
+sc_test = sc_X.transform(test)
+#
+
+#DecisionTree
+clf=tree.DecisionTreeClassifier()
+clf.fit(X_train,y_train)
+predictions=clf.predict(X_test)
+print(accuracy_score(y_test, predictions))
